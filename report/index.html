@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payables exception memo</title>
+  <style>
+    body { margin: 0; background: #fff; color: #111; font-family: Cambria, Georgia, serif; }
+    main { width: min(740px, calc(100% - 40px)); margin: 0 auto; padding: 48px 0 72px; }
+    .kicker { font-family: "Segoe UI", sans-serif; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 18px; }
+    h1 { font-size: 42px; line-height: 1.05; font-weight: 500; margin: 0 0 16px; }
+    h2 { font-size: 26px; font-weight: 500; margin: 0; }
+    .deck { font-size: 20px; line-height: 1.4; margin: 0 0 28px; }
+    .rule { border: 0; border-top: 4px solid #111; margin: 0 0 22px; }
+    .total { font-family: "Segoe UI", sans-serif; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .total b { display: block; font-family: Cambria, Georgia, serif; font-size: 56px; letter-spacing: -0.03em; font-weight: 500; color: #9f1d1d; }
+    figure { margin: 28px 0; }
+    figcaption, .note, footer { font-family: "Segoe UI", sans-serif; color: #444; font-size: 13px; }
+    svg { width: 100%; height: auto; }
+    section { padding: 22px 0; border-top: 1px solid #111; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; font-family: "Segoe UI", sans-serif; }
+    table { width: 100%; border-collapse: collapse; font-family: "Segoe UI", sans-serif; font-size: 14px; }
+    th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid #ddd; vertical-align: top; }
+    th { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+    p { line-height: 1.5; }
+    pre { background: #f4f4f4; padding: 12px; overflow: auto; font-size: 12px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="kicker">Exception memo · Atelier Ledger s.r.o. · Bratislava · 23 Sep 2026</p>
+  <hr class="rule" />
+  <h1>The payables book paid €78,246 it did not owe.</h1>
+  <p class="deck">Four checks on a synthetic invoice population. No model. A join, a date window, a lag, and a rate that changed on 1 January 2025.</p>
+  <p class="total">Money that should not have left the account<b>€78,246</b></p>
+  <figure>
+    <svg viewBox="0 0 470 170" role="img" aria-label="Exception euros by quarter"><rect x="28" y="108" width="22" height="32" fill="#111"/><text x="39" y="156" text-anchor="middle" font-size="9" fill="#555">1</text><rect x="64" y="62" width="22" height="78" fill="#111"/><text x="75" y="156" text-anchor="middle" font-size="9" fill="#555">2</text><rect x="100" y="53" width="22" height="87" fill="#111"/><text x="111" y="156" text-anchor="middle" font-size="9" fill="#555">3</text><rect x="136" y="76" width="22" height="64" fill="#111"/><text x="147" y="156" text-anchor="middle" font-size="9" fill="#555">4</text><rect x="172" y="20" width="22" height="120" fill="#111"/><text x="183" y="156" text-anchor="middle" font-size="9" fill="#555">5</text><rect x="208" y="95" width="22" height="45" fill="#111"/><text x="219" y="156" text-anchor="middle" font-size="9" fill="#555">6</text></svg>
+    <figcaption>Figure 1. Euros in the exception set by quarter, from Q1 2025. Duplicates, the hosting overcharge, and the VAT gap. Split purchases are a control break, not cash already lost, so they are not in the total or the bars.</figcaption>
+  </figure>
+
+  <section>
+    <h2>01 · Twelve invoices were paid twice</h2>
+    <p>€60,426 left the account a second time. The match is strict: same supplier, same invoice number, same gross. The second copy arrived three days later and was entered by <span>import.batch</span>, not by the clerk who booked the original. That is an interface failure, not twelve independent mistakes.</p>
+    <table>
+      <thead><tr><th>Supplier</th><th>Number</th><th>First</th><th>Second</th><th>Gross</th></tr></thead>
+      <tbody><tr><td>Nitra Energy s.r.o.</td><td>NE-40</td><td>2026-03-02</td><td>2026-03-05</td><td class='num'>€6,642</td></tr>
+<tr><td>Ipel Security s.r.o.</td><td>IS-71</td><td>2026-02-09</td><td>2026-02-12</td><td class='num'>€6,568</td></tr>
+<tr><td>Ipel Security s.r.o.</td><td>IS-55</td><td>2025-08-19</td><td>2025-08-22</td><td class='num'>€6,297</td></tr>
+<tr><td>Topla Studio s.r.o.</td><td>TS-14</td><td>2025-10-21</td><td>2025-10-24</td><td class='num'>€5,904</td></tr>
+<tr><td>Hron Print s.r.o.</td><td>HP-220</td><td>2025-04-02</td><td>2025-04-05</td><td class='num'>€5,781</td></tr>
+<tr><td>Hron Print s.r.o.</td><td>HP-261</td><td>2025-09-16</td><td>2025-09-19</td><td class='num'>€5,461</td></tr>
+<tr><td>North Paper s.r.o.</td><td>NP-1044</td><td>2025-03-04</td><td>2025-03-07</td><td class='num'>€5,116</td></tr>
+<tr><td>North Paper s.r.o.</td><td>NP-1102</td><td>2025-06-11</td><td>2025-06-14</td><td class='num'>€4,723</td></tr>
+<tr><td>Vah Courier s.r.o.</td><td>VC-29</td><td>2026-01-13</td><td>2026-01-16</td><td class='num'>€3,788</td></tr>
+<tr><td>Karpat Clean s.r.o.</td><td>KC-103</td><td>2025-11-03</td><td>2025-11-06</td><td class='num'>€3,542</td></tr>
+<tr><td>Vah Courier s.r.o.</td><td>VC-17</td><td>2025-07-08</td><td>2025-07-11</td><td class='num'>€3,505</td></tr>
+<tr><td>Karpat Clean s.r.o.</td><td>KC-88</td><td>2025-05-20</td><td>2025-05-23</td><td class='num'>€3,099</td></tr></tbody>
+    </table>
+    <p class="note">Query: sql/01_duplicates.sql. The self-join keeps the later row as the duplicate by ordering on id.</p>
+  </section>
+
+  <section>
+    <h2>02 · Eight purchases walked around a €5,000 signature</h2>
+    <p>Lumen Facilities has a single-signature limit of €5,000 net. These eight pairs use different invoice numbers, each under the line, three or four days apart. Together they clear it by €2,950. This memo does not call that fraud. It calls it a control that can be stepped over. A reviewer who only sorts by amount, one invoice at a time, will not see it. The same-number duplicates from finding 01 are excluded here on purpose.</p>
+    <p class="note">Query: sql/02_split_purchases.sql. The window is six days. Both legs have to be material, above 40% of the limit, so two tiny invoices cannot fake a pair.</p>
+  </section>
+
+  <section>
+    <h2>03 · The hosting contract stayed at €42. The invoices did not.</h2>
+    <p>Danube Hosting bills 90 seats a month. The contract price is €42. From the fourth month the unit price steps up, to €74 at the end. The lag against the prior month is in the query. The sum of the gap is €13,500.</p>
+    <table>
+      <thead><tr><th>Month</th><th>Billed</th><th>Contract</th><th>Overcharge</th></tr></thead>
+      <tbody><tr><td>2025-07</td><td class='num'>€42</td><td class='num'>€42</td><td class='num'>€0</td></tr>
+<tr><td>2025-08</td><td class='num'>€42</td><td class='num'>€42</td><td class='num'>€0</td></tr>
+<tr><td>2025-09</td><td class='num'>€42</td><td class='num'>€42</td><td class='num'>€0</td></tr>
+<tr><td>2025-10</td><td class='num'>€45</td><td class='num'>€42</td><td class='num'>€270</td></tr>
+<tr><td>2025-11</td><td class='num'>€48</td><td class='num'>€42</td><td class='num'>€540</td></tr>
+<tr><td>2025-12</td><td class='num'>€51</td><td class='num'>€42</td><td class='num'>€810</td></tr>
+<tr><td>2026-01</td><td class='num'>€54</td><td class='num'>€42</td><td class='num'>€1,080</td></tr>
+<tr><td>2026-02</td><td class='num'>€58</td><td class='num'>€42</td><td class='num'>€1,440</td></tr>
+<tr><td>2026-03</td><td class='num'>€62</td><td class='num'>€42</td><td class='num'>€1,800</td></tr>
+<tr><td>2026-04</td><td class='num'>€66</td><td class='num'>€42</td><td class='num'>€2,160</td></tr>
+<tr><td>2026-05</td><td class='num'>€70</td><td class='num'>€42</td><td class='num'>€2,520</td></tr>
+<tr><td>2026-06</td><td class='num'>€74</td><td class='num'>€42</td><td class='num'>€2,880</td></tr></tbody>
+    </table>
+    <p class="note">Query: sql/03_price_drift.sql. LAG(unit_eur) is the month-to-month change. The contract column does not move.</p>
+  </section>
+
+  <section>
+    <h2>04 · Eighteen invoices still use the old 20% VAT</h2>
+    <p>From 1 January 2025 the standard Slovak VAT rate is 23%. The vendor master on these suppliers is 23%. Eighteen service invoices were booked at 20%, the previous standard rate. The tax gap is €4,320. The cash already paid is not the whole point. The return is wrong, and a later correction is more expensive than the booking.</p>
+    <p class="note">Query: sql/04_vat_rate.sql. Gap = net × (master rate − booked rate). Rates are stored in basis points so 23% is 2300 and the arithmetic stays in integers.</p>
+  </section>
+
+  <section>
+    <h2>What was not counted</h2>
+    <p>Late-payment interest, foreign currency, and credit notes. A duplicate that was credited back would fall out of the join only if the credit carried the same invoice number and the same gross with the opposite sign. This book has no such credits. Adding them without a test would make the €78,246 look cleaner than the ledger is.</p>
+    <p>The companies are fictional. The rate change is not: standard Slovak VAT moved from 20% to 23% on 1 January 2025.</p>
+  </section>
+  <footer>Generated from data/payables.db by build_report.py. Re-run the script and the sentences move with the queries.</footer>
+</main>
+</body>
+</html>
